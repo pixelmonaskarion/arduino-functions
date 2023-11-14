@@ -1,7 +1,7 @@
 #![no_std]
 #![no_main]
 
-use arduino_hal::{port::{mode::Output, Pin}, hal::port::PB5};
+use arduino_hal::{port::{mode::{PullUp, Input}, Pin}, hal::port::PD2};
 use panic_halt as _;
 
 #[arduino_hal::entry]
@@ -10,15 +10,18 @@ fn main() -> ! {
     let pins = arduino_hal::pins!(dp);
 
     let mut led = pins.d13.into_output();
+    let button = pins.d2.into_pull_up_input();
 
     loop {
-        blink(&mut led, 1000);
+        let button_state = read_button_state(&button);
+        if button_state {
+            led.set_high();
+        } else {
+            led.set_low();
+        }
     }
 }
 
-fn blink(led: &mut Pin<Output, PB5>, delay: u16) {
-    led.set_low();
-    arduino_hal::delay_ms(delay);
-    led.set_high();
-    arduino_hal::delay_ms(delay);
+fn read_button_state(button: &Pin<Input<PullUp>, PD2>) -> bool {
+    button.is_high()
 }
