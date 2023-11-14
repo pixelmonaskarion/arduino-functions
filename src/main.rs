@@ -19,6 +19,7 @@ fn main() -> ! {
         } else {
             led.set_low();
         }
+        arduino_hal::delay_ms(10);
     }
 }
 
