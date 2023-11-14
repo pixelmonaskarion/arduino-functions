@@ -12,13 +12,9 @@ fn main() -> ! {
     let mut led = pins.d13.into_output();
 
     loop {
-        blink(&mut led);
+        led_on(&mut led);
+    led_off(&mut led);
     }
-}
-
-fn blink(led: &mut Pin<Output, PB5>) {
-    led_on(led);
-    led_off(led);
 }
 
 fn led_off(led: &mut Pin<Output, PB5>) {
