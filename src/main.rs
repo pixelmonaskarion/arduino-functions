@@ -17,8 +17,16 @@ fn main() -> ! {
 }
 
 fn blink(led: &mut Pin<Output, PB5>) {
-    led.set_high();
-    arduino_hal::delay_ms(1000);
+    led_on(led);
+    led_off(led);
+}
+
+fn led_off(led: &mut Pin<Output, PB5>) {
     led.set_low();
+    arduino_hal::delay_ms(1000);
+}
+
+fn led_on(led: &mut Pin<Output, PB5>) {
+    led.set_high();
     arduino_hal::delay_ms(1000);
 }
